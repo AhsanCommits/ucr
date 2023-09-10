@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const page = () => {
+const RefundPolicyPage = () => {
   const [isMounted, setIsmounted] = useState(false);
 
   useEffect(() => {
@@ -134,4 +134,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default RefundPolicyPage;

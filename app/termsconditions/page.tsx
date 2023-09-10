@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const page = () => {
+const TermsPage = () => {
   const [isMounted, setIsmounted] = useState(false);
 
   useEffect(() => {
@@ -153,4 +153,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TermsPage;

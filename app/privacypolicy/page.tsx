@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const page = () => {
+const PrivacyPolicyPage = () => {
   const [isMounted, setIsmounted] = useState(false);
 
   useEffect(() => {
@@ -143,4 +143,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PrivacyPolicyPage;
