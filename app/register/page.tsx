@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
   usDotNumber: z.string().min(1).max(10),
@@ -27,6 +28,8 @@ const formSchema = z.object({
 });
 
 const RegisterPage = () => {
+  const [apiResponse, setApiResponse] = useState('');
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,12 +39,13 @@ const RegisterPage = () => {
     },
   });
 
-  // submit handler.
+  // Submit Handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    const { usDotNumber, email, terms } = values;
 
-    console.log(values);
+    const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
+
+    setApiResponse(apiUrl);
 
     toast({
       title: 'Registration Successful! 🎉',
@@ -49,6 +53,23 @@ const RegisterPage = () => {
     });
   }
 
+  useEffect(() => {
+    if (apiResponse) {
+      fetch(apiResponse)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log('API Response:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  }, [apiResponse]);
   const { toast } = useToast();
 
   return (
