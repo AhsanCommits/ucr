@@ -133,7 +133,7 @@ const ContactPage = () => {
               <div className="text-center">
                 <Button
                   type="submit"
-                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-6"
+                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
                 >
                   Submit
                 </Button>
