@@ -13,7 +13,9 @@ const RefundPolicyPage = () => {
   return (
     <section className="section-style">
       <div className="container-style flex-col md:px-12 md:py-20 space-y-8">
-        <h1 className="text-4xl font-bold text-gray-700 p-2">Refund Policy</h1>
+        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
+          Refund Policy
+        </h1>
         <ul className="space-y-4 p-2 text-left text-neutral-600 text-base font-light">
           <li>Effective Date: 8/4/2023</li>
           <li>

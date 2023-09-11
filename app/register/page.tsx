@@ -55,11 +55,11 @@ const RegisterPage = () => {
     <section className="section-style">
       <div className="container-style flex-col md:px-12 md:py-20 space-y-6">
         <Image src={'/logo.png'} alt="Site Logo" width={146} height={146} />
-        <h1 className="text-4xl font-bold text-gray-700 p-2">
+        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
           Unified Carrier Registration (UCR)
         </h1>
 
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/3 sm:w-full">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <FormField
@@ -113,13 +113,14 @@ const RegisterPage = () => {
                   </FormItem>
                 )}
               />
-
-              <Button
-                type="submit"
-                className="rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-6"
-              >
-                Register
-              </Button>
+              <div className="text-center">
+                <Button
+                  type="submit"
+                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-6"
+                >
+                  Register
+                </Button>
+              </div>
             </form>
           </Form>
         </div>

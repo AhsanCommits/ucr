@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 const Navbar = () => {
   return (
     <section className="section-style">
-      <div className="container-style md:px-8">
-        <div>
+      <div className="container-style md:px-16">
+        <div className="w-1/2">
           <Link href="/">
             <Image
               src={'/navbar-brand.png'}
@@ -18,7 +18,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="md:w-[50%]">
+        <div className="w-1/2">
           <ul className="flex justify-end space-x-8">
             <li>
               <Link href="/">Home</Link>

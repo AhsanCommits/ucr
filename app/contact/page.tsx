@@ -58,7 +58,9 @@ const ContactPage = () => {
   return (
     <section className="section-style">
       <div className="container-style flex-col md:px-12 md:py-20 space-y-8">
-        <h1 className="text-4xl font-bold text-gray-700 p-2">Contact Us</h1>
+        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
+          Contact Us
+        </h1>
 
         <div className="w-full md:w-1/3">
           <Form {...form}>
@@ -128,12 +130,14 @@ const ContactPage = () => {
                   </FormItem>
                 )}
               />
-              <Button
-                type="submit"
-                className="rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-6"
-              >
-                Submit
-              </Button>
+              <div className="text-center">
+                <Button
+                  type="submit"
+                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-6"
+                >
+                  Submit
+                </Button>
+              </div>
             </form>
           </Form>
         </div>
