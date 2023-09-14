@@ -15,7 +15,7 @@ import CarrierData from '@/components/carrierData';
 import Classification from '@/components/classification';
 
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 const formSchema = z.object({
   usDotNumber: z.string().min(1).max(10),
@@ -108,7 +108,7 @@ const RegisterPage = () => {
 
   const { toast } = useToast();
 
-  const conditionalComponent = () => {
+  const conditionalComponent = (): ReactNode => {
     switch (page) {
       case 0:
         return <RegisterForm form={form} />;
@@ -122,7 +122,7 @@ const RegisterPage = () => {
       case 2:
         return <Classification form={form} />;
       default:
-        return console.log(formData);
+        return <div>Here classification page will be added</div>;
     }
   };
 
