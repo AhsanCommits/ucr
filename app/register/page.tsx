@@ -13,6 +13,8 @@ import { cn } from '@/lib/utils';
 import RegisterForm from '@/components/registerForm';
 import CarrierData from '@/components/carrierData';
 import Classification from '@/components/classification';
+import FurtherClassification from '@/components/furtherClassification';
+import Payment from '@/components/payment';
 
 import { useForm } from 'react-hook-form';
 import { ReactNode, useState } from 'react';
@@ -26,11 +28,16 @@ const formSchema = z.object({
   freightForwarder: z.boolean(),
   broker: z.boolean(),
   leasingCompany: z.boolean(),
+  certificationNeeded: z.string(),
+  processingTime: z.string(),
+  registrationYear: z.string(),
+  fullName: z.string(),
+  signature: z.string(),
+  checkAuthorization: z.boolean(),
 });
 
 const RegisterPage = () => {
   const [page, setPage] = useState(0);
-  const [apiResponse, setApiResponse] = useState('');
   const [apiCalled, setApiCalled] = useState(false); // Track whether the API has been called
   const [carrierData, setCarrierData] = useState({});
   const [formData, setFormData] = useState({
@@ -42,6 +49,12 @@ const RegisterPage = () => {
     freightForwarder: false,
     broker: false,
     leasingCompany: false,
+    certificationNeeded: '',
+    processingTime: '',
+    registrationYear: '',
+    fullName: '',
+    signature: '',
+    checkAuthorization: false,
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,6 +68,12 @@ const RegisterPage = () => {
       freightForwarder: false,
       broker: false,
       leasingCompany: false,
+      certificationNeeded: '',
+      processingTime: '',
+      registrationYear: '',
+      fullName: '',
+      signature: '',
+      checkAuthorization: false,
     },
   });
 
@@ -69,13 +88,17 @@ const RegisterPage = () => {
       freightForwarder: values.freightForwarder,
       broker: values.broker,
       leasingCompany: values.leasingCompany,
+      certificationNeeded: values.certificationNeeded,
+      processingTime: values.processingTime,
+      registrationYear: values.registrationYear,
+      fullName: values.fullName,
+      signature: values.signature,
+      checkAuthorization: values.checkAuthorization,
     });
 
     if (!apiCalled) {
       // Check if the API hasn't been called before
       const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${values.usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
-
-      setApiResponse(apiUrl);
 
       try {
         const response = await fetch(apiUrl);
@@ -89,7 +112,7 @@ const RegisterPage = () => {
         setPage(page + 1); // Navigate to the next page after successful API response
         toast({
           title: 'Registration Successful! 🎉',
-          description: 'We have sent you an email with the next steps.',
+          description: 'You have successfully registered your company.',
         });
       } catch (error) {
         console.error('Error:', error);
@@ -121,8 +144,11 @@ const RegisterPage = () => {
         );
       case 2:
         return <Classification form={form} />;
+      case 3:
+        return <FurtherClassification form={form} />;
+
       default:
-        return <div>Here classification page will be added</div>;
+        return <Payment form={formData} />;
     }
   };
 
@@ -142,7 +168,7 @@ const RegisterPage = () => {
 
         <div
           className={cn(
-            page === 0 ? 'md:w-1/2 sm:w-full' : 'md:w-full sm:w-full'
+            page === 0 ? 'md:w-1/3 sm:w-full' : 'md:w-full sm:w-full'
           )}
         >
           <Form {...form}>
