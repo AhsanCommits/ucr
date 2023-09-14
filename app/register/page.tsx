@@ -6,29 +6,43 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { Checkbox } from '@/components/ui/checkbox';
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
+
+import RegisterForm from '@/components/registerForm';
+import CarrierData from '@/components/carrierData';
+import Classification from '@/components/classification';
 
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const formSchema = z.object({
   usDotNumber: z.string().min(1).max(10),
   email: z.string().email(),
   terms: z.boolean().refine((val) => val === true),
+  motorCarrier: z.boolean(),
+  motorPrivateCarrier: z.boolean(),
+  freightForwarder: z.boolean(),
+  broker: z.boolean(),
+  leasingCompany: z.boolean(),
 });
 
 const RegisterPage = () => {
+  const [page, setPage] = useState(0);
   const [apiResponse, setApiResponse] = useState('');
+  const [apiCalled, setApiCalled] = useState(false); // Track whether the API has been called
+  const [carrierData, setCarrierData] = useState({});
+  const [formData, setFormData] = useState({
+    usDotNumber: '',
+    email: '',
+    terms: false,
+    motorCarrier: false,
+    motorPrivateCarrier: false,
+    freightForwarder: false,
+    broker: false,
+    leasingCompany: false,
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,110 +50,115 @@ const RegisterPage = () => {
       usDotNumber: '',
       email: '',
       terms: false,
+      motorCarrier: false,
+      motorPrivateCarrier: false,
+      freightForwarder: false,
+      broker: false,
+      leasingCompany: false,
     },
   });
 
   // Submit Handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const { usDotNumber, email, terms } = values;
-
-    const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
-
-    setApiResponse(apiUrl);
-
-    toast({
-      title: 'Registration Successful! 🎉',
-      description: 'We have sent you an email with the next steps.',
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setFormData({
+      usDotNumber: values.usDotNumber,
+      email: values.email,
+      terms: values.terms,
+      motorCarrier: values.motorCarrier,
+      motorPrivateCarrier: values.motorPrivateCarrier,
+      freightForwarder: values.freightForwarder,
+      broker: values.broker,
+      leasingCompany: values.leasingCompany,
     });
+
+    if (!apiCalled) {
+      // Check if the API hasn't been called before
+      const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${values.usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
+
+      setApiResponse(apiUrl);
+
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setCarrierData(data.content.carrier);
+        console.log('API Response:', data.content.carrier);
+        setApiCalled(true); // Set the state to indicate that the API has been called
+        setPage(page + 1); // Navigate to the next page after successful API response
+        toast({
+          title: 'Registration Successful! 🎉',
+          description: 'We have sent you an email with the next steps.',
+        });
+      } catch (error) {
+        console.error('Error:', error);
+
+        toast({
+          // title: 'Error',
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'Please check your US DOT number and try again.',
+        });
+      }
+    } else {
+      setPage(page + 1); // Navigate to the next page without calling the API again
+    }
   }
 
-  useEffect(() => {
-    if (apiResponse) {
-      fetch(apiResponse)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log('API Response:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-  }, [apiResponse]);
   const { toast } = useToast();
+
+  const conditionalComponent = () => {
+    switch (page) {
+      case 0:
+        return <RegisterForm form={form} />;
+      case 1:
+        return (
+          <CarrierData
+            formDataEmail={formData.email}
+            carrierData={carrierData}
+          />
+        );
+      case 2:
+        return <Classification form={form} />;
+      default:
+        return console.log(formData);
+    }
+  };
 
   return (
     <section className="section-style">
       <div className="container-style flex-col md:px-12 md:py-20 space-y-6">
-        <Image src={'/logo.png'} alt="Site Logo" width={146} height={146} />
-        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
-          Unified Carrier Registration (UCR)
-        </h1>
+        {page === 0 ? (
+          <>
+            <Image src={'/logo.png'} alt="Site Logo" width={146} height={146} />
+            <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
+              Unified Carrier Registration (UCR)
+            </h1>
+          </>
+        ) : (
+          ''
+        )}
 
-        <div className="w-full md:w-1/3 sm:w-full">
+        <div
+          className={cn(
+            page === 0 ? 'md:w-1/2 sm:w-full' : 'md:w-full sm:w-full'
+          )}
+        >
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="usDotNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="DOT Number"
-                        {...field}
-                        className="rounded-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="Email Address"
-                        {...field}
-                        className="rounded-full"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="terms"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                        className="h-8 w-8 rounded-full shadow data-[state=checked]:bg-[#004990] data-[state=checked]:text-primary-foreground"
-                      />
-                    </FormControl>
-                    <FormLabel className="">
-                      I agree that I have already read and accept the terms and
-                      conditions, privacy policy, refund policy.
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-              <div className="text-center">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className={cn(
+                page === 0 || page === 1 ? 'space-y-8' : 'space-y-4'
+              )}
+            >
+              {conditionalComponent()}
+              <div className={cn(page === 0 ? 'text-center' : 'text-left')}>
                 <Button
                   type="submit"
                   className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
                 >
-                  Register
+                  {page === 0 ? 'Register' : 'Continue'}
                 </Button>
               </div>
             </form>
