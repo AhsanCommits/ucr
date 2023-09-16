@@ -92,28 +92,27 @@ const RegisterPage = () => {
       signature: values.signature,
       checkAuthorization: values.checkAuthorization,
     });
-    setPage(page + 1);
 
-    //   if (!apiCalled) {
-    //     // Check if the API hasn't been called before
-    //     const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${values.usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
+    if (!apiCalled) {
+      // Check if the API hasn't been called before
+      const apiUrl = `https://mobile.fmcsa.dot.gov/qc/services/carriers/${values.usDotNumber}/?webKey=304b4c98190bd95d648de8f80478c6d7f3c3af0a`;
 
-    //     try {
-    //       const response = await fetch(apiUrl);
-    //       if (!response.ok) {
-    //         throw new Error('Network response was not ok');
-    //       }
-    //       const data = await response.json();
-    //       setCarrierData(data.content.carrier);
-    //       console.log('API Response:', data.content.carrier);
-    //       setApiCalled(true); // Set the state to indicate that the API has been called
-    //       setPage(page + 1); // Navigate to the next page after successful API response
-    //     } catch (error) {
-    //       console.error('Error:', error);
-    //     }
-    //   } else {
-    //     setPage(page + 1); // Navigate to the next page without calling the API again
-    //   }
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setCarrierData(data.content.carrier);
+        console.log('API Response:', data.content.carrier);
+        setApiCalled(true); // Set the state to indicate that the API has been called
+        setPage(page + 1); // Navigate to the next page after successful API response
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    } else {
+      setPage(page + 1); // Navigate to the next page without calling the API again
+    }
   }
 
   const conditionalComponent = () => {
