@@ -11,10 +11,10 @@ import RegisterForm from '@/components/Registration/registerForm';
 import CarrierData from '@/components/Registration/carrierData';
 import Classification from '@/components/Registration/classification';
 import FurtherClassification from '@/components/Registration/furtherClassification';
-import Payment from '@/components/Registration/Payment/stripePayment';
 
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const formSchema = z.object({
   usDotNumber: z.string().min(1).max(10),
@@ -128,10 +128,8 @@ const RegisterPage = () => {
         );
       case 2:
         return <Classification form={form} />;
-      case 3:
-        return <FurtherClassification form={form} />;
       default:
-        return <Payment />;
+        return <FurtherClassification form={form} />;
     }
   };
 
@@ -163,8 +161,15 @@ const RegisterPage = () => {
             >
               {conditionalComponent()}
               <div className={cn(page === 0 ? 'text-center' : 'text-left')}>
-                {page >= 4 ? (
-                  ''
+                {page >= 3 ? (
+                  <Link href={'/payment'}>
+                    <Button
+                      type="submit"
+                      className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
+                    >
+                      Continue
+                    </Button>
+                  </Link>
                 ) : (
                   <Button
                     type="submit"
