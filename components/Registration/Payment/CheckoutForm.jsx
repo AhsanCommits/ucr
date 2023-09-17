@@ -74,10 +74,6 @@ export default function Form(paymentIntent) {
       confirmParams: {
         return_url: 'https://ucr.vercel.app/success',
         receipt_email: email,
-        shipping: {
-          address: { city: 'NY' },
-          name: 'Shipping user',
-        },
         payment_method_data: {
           billing_details: {
             name: 'Billing user',
@@ -124,16 +120,14 @@ export default function Form(paymentIntent) {
         <PaymentElement id="payment-element" />
         <div className="text-center">
           <button
-            className="md:w-1/2 w-full rounded-full text-white bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all my-4 px-8 py-4"
-            disabled={isLoading || !stripe || !elements}
+            className="md:w-1/2 w-full rounded-full text-white bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all my-4 px-8 py-4
+            disabled:opacity-50 disabled:cursor-not-allowed
+            "
             id="submit"
+            disabled={isLoading === true || !stripe || !elements}
           >
             <span id="button-text">
-              {isLoading ? (
-                <div className="spinner" id="spinner"></div>
-              ) : (
-                'Pay now'
-              )}
+              {isLoading ? 'Please Wait...' : 'Pay Now'}
             </span>
           </button>
         </div>

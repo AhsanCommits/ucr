@@ -112,6 +112,7 @@ const RegisterPage = () => {
         console.log('API Response:', data.content.carrier);
         setApiCalled(true); // Set the state to indicate that the API has been called
         setPage(page + 1); // Navigate to the next page after successful API response
+        setIsLoading('Register');
       } catch (error) {
         console.error('Error:', error);
         setIsLoading('Register');
@@ -197,7 +198,8 @@ const RegisterPage = () => {
                 ) : (
                   <Button
                     type="submit"
-                    className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
+                    className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isLoading === 'Loading...'}
                   >
                     {page === 0 ? `${isLoading}` : 'Continue'}
                   </Button>
