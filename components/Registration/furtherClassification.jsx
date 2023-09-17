@@ -19,7 +19,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 const FurtherClassification = ({ form }) => {
   console.log(form);
   return (
-    <div className="md:w-1/3 sm:w-full space-y-5">
+    <div className="md:w-1/2 sm:w-full space-y-5">
       <FormField
         control={form.control}
         name="certificationNeeded"
