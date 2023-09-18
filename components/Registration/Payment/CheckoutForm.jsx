@@ -1,68 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   PaymentElement,
   LinkAuthenticationElement,
   useStripe,
   useElements,
-} from '@stripe/react-stripe-js';
+} from "@stripe/react-stripe-js";
 
-export default function Form(paymentIntent) {
-  const [email, setEmail] = useState('');
-  const [locAmount, setLocAmount] = useState('245');
+export default function Form({ paymentIntent }) {
+  const [email, setEmail] = useState(paymentIntent.receipt_email);
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    //Grab the client secret from url params
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case 'succeeded':
-          setMessage('Payment succeeded!');
-          break;
-        case 'processing':
-          setMessage('Your payment is processing.');
-          break;
-        case 'requires_payment_method':
-          setMessage('Your payment was not successful, please try again.');
-          break;
-        default:
-          setMessage('Something went wrong.');
-          break;
-      }
-    });
-  }, [stripe]);
-
-  const handleAmount = async (val) => {
-    setLocAmount(val);
-    fetch('api/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        amount: val * 100,
-        payment_intent_id: paymentIntent.paymentIntent,
-      }),
-    });
-  };
+  const [stripeElementsLoaded, setStripeElementsLoaded] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
-      console.log('not loaded');
+      console.log("not loaded");
       // Stripe.js has not yet loaded.
       return;
     }
@@ -72,20 +28,14 @@ export default function Form(paymentIntent) {
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'https://ucr.vercel.app/success',
-        receipt_email: email,
-        payment_method_data: {
-          billing_details: {
-            name: 'Billing user',
-          },
-        },
+        return_url: "http://" + window.location.host + "/success",
       },
     });
 
-    if (error.type === 'card_error' || error.type === 'validation_error') {
+    if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
     } else {
-      setMessage('An unexpected error occured.');
+      setMessage("An unexpected error occured.");
     }
 
     setIsLoading(false);
@@ -96,20 +46,17 @@ export default function Form(paymentIntent) {
       <form
         id="payment-form"
         onSubmit={handleSubmit}
-        className="w-1/2 mx-auto my-10"
+        className="w-full max-w-sm mx-auto my-10"
       >
         <div className="mb-3 text-gray-700">
           Total due
           <input
             id="amount"
             type="text"
-            value={`${locAmount} $`}
-            className="block
-            w-full
-            rounded-md
-            border-gray-300
-            shadow-sm h-12 px-4"
-            onChange={(e) => handleAmount(e.target.value)}
+            value={`${
+              paymentIntent.amount / 100
+            } ${paymentIntent.currency?.toUpperCase()}`}
+            className="block w-full h-12 px-4 font-bold border-gray-300 rounded-md shadow-sm"
             disabled
           />
         </div>
@@ -117,22 +64,40 @@ export default function Form(paymentIntent) {
           id="link-authentication-element"
           onChange={(e) => setEmail(e.target.value)}
         />
-        <PaymentElement id="payment-element" />
+        <PaymentElement
+          options={{
+            defaultValues: {
+              billingDetails: {
+                email: email,
+              },
+            },
+          }}
+          onReady={() => {
+            setStripeElementsLoaded(true);
+          }}
+          id="payment-element"
+        />
         <div className="text-center">
-          <button
-            className="md:w-1/2 w-full rounded-full text-white bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all my-4 px-8 py-4
+          {stripeElementsLoaded && (
+            <button
+              className=" w-full rounded-full text-white bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all my-4 px-8 py-4
             disabled:opacity-50 disabled:cursor-not-allowed
             "
-            id="submit"
-            disabled={isLoading === true || !stripe || !elements}
-          >
-            <span id="button-text">
-              {isLoading ? 'Please Wait...' : 'Pay Now'}
-            </span>
-          </button>
+              id="submit"
+              disabled={isLoading === true || !stripe || !elements}
+            >
+              <span id="button-text">
+                {isLoading ? "Please Wait..." : "Pay Now"}
+              </span>
+            </button>
+          )}
         </div>
         {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
+        {message && (
+          <div id="payment-message" className="text-center text-gray-500">
+            {message}
+          </div>
+        )}
       </form>
     </>
   );

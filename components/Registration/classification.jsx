@@ -3,9 +3,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Classification = ({ form }) => {
   return (
@@ -17,7 +17,7 @@ const Classification = ({ form }) => {
         control={form.control}
         name="motorCarrier"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
@@ -34,7 +34,7 @@ const Classification = ({ form }) => {
         control={form.control}
         name="motorPrivateCarrier"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
@@ -51,7 +51,7 @@ const Classification = ({ form }) => {
         control={form.control}
         name="freightForwarder"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
@@ -68,7 +68,7 @@ const Classification = ({ form }) => {
         control={form.control}
         name="broker"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
@@ -85,7 +85,7 @@ const Classification = ({ form }) => {
         control={form.control}
         name="leasingCompany"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
