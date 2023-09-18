@@ -4,22 +4,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const FurtherClassification = ({ form }) => {
-  console.log(form);
+  // console.log(form);
   return (
-    <div className="md:w-1/2 sm:w-full space-y-5">
+    <div className="space-y-5 md:w-1/2 sm:w-full">
       <FormField
         control={form.control}
         name="certificationNeeded"
@@ -27,7 +27,7 @@ const FurtherClassification = ({ form }) => {
           <FormItem>
             <Select
               onValueChange={field.onChange}
-              defaultValue={'Registration Year'}
+              defaultValue={"Registration Year"}
             >
               <FormControl className="rounded-full">
                 <SelectTrigger>
@@ -54,7 +54,7 @@ const FurtherClassification = ({ form }) => {
           <FormItem>
             <Select
               onValueChange={field.onChange}
-              defaultValue={'Would you like a certificate?'}
+              defaultValue={"Would you like a certificate?"}
             >
               <FormControl className="rounded-full">
                 <SelectTrigger>
@@ -81,7 +81,7 @@ const FurtherClassification = ({ form }) => {
           <FormItem>
             <Select
               onValueChange={field.onChange}
-              defaultValue={'Processing Time'}
+              defaultValue={"Processing Time"}
             >
               <FormControl className="rounded-full">
                 <SelectTrigger>
@@ -140,7 +140,7 @@ const FurtherClassification = ({ form }) => {
         control={form.control}
         name="checkAuthorization"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md p-4">
+          <FormItem className="flex flex-row items-center p-4 space-x-3 space-y-0 rounded-md">
             <FormControl>
               <Checkbox
                 checked={field.value}
