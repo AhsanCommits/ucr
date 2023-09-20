@@ -23,7 +23,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="p-2 space-y-4 text-sm text-center text-slate-400">
+        <div className="max-w-5xl p-2 space-y-4 text-sm text-center text-slate-400">
           <p>
             Information and images contained here are the property of Cohort,
             Inc. and, they may not be reproduced, reused, or appropriated in any

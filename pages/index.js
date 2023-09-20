@@ -1,26 +1,24 @@
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
 
 const Home = () => {
   return (
     <section className="section-style">
-      <div className="container-style flex-col md:px-12 md:py-20 space-y-8">
-        <Image src={'/logo.png'} alt="Site Logo" width={146} height={146} />
-        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
+      <div className="flex-col space-y-8 container-style md:px-12 md:py-20">
+        <Image src={"/logo.png"} alt="Site Logo" width={146} height={146} />
+        <h1 className="p-2 text-4xl font-bold text-center text-gray-700">
           Unified Carrier Registration (UCR)
         </h1>
-        <div className="text-gray-700 text-sm space-y-4 p-2 text-center">
+        <div className="max-w-5xl p-2 space-y-4 text-center text-gray-700 text-md ">
           <p>
             All motor carriers, brokers, and leasing companies that haul across
             state lines or within a state that adheres to the UCR program, are
-            required to register their US DOT
+            required to register their US DOT Numbers with the Unified Carrier
+            Registration.
           </p>
-          <p>Numbers with the Unified Carrier</p>
-          <p>
-            Registration. All UCR filings will be completed during normal
-            business hours.
-          </p>
+
+          <p>All UCR filings will be completed during normal business hours.</p>
 
           <p>
             Starting January 1, 2023, all relevant companies in the trucking
@@ -44,7 +42,7 @@ const Home = () => {
             operating in).
           </p>
         </div>
-        <Link href={'/register'}>
+        <Link href={"/register"}>
           <Button className="rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7">
             Proceed to Filling
           </Button>
