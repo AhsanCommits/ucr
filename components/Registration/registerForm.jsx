@@ -164,16 +164,16 @@ const RegisterForm = ({
           {page >= 3 ? (
             <Button
               type="submit"
-              disabled={isLoading === 'Loading...'}
+              disabled={(isLoading = 'Loading...')}
               className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
             >
               {isLoading === 'Loading...' ? 'Loading...' : 'Pay Now'}
             </Button>
           ) : (
             <Button
+              disabled={isLoading === 'Loading...'}
               type="submit"
               className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isLoading === 'Loading...'}
             >
               {page === 0 ? `${isLoading}` : 'Continue'}
             </Button>

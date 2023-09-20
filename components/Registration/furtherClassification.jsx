@@ -66,6 +66,7 @@ const FurtherClassification = ({
   setFormData,
   formData,
   carrierData,
+  isLoading,
   setIsLoading,
   setShowError,
   setApiError,
@@ -263,10 +264,11 @@ const FurtherClassification = ({
 
           <div className="text-left">
             <Button
+              disabled={isLoading === 'Loading...'}
               type="submit"
-              className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 "
+              className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Continue
+              {page === 3 ? `${isLoading}` : 'Continue'}
             </Button>
           </div>
         </div>

@@ -97,6 +97,7 @@ const RegisterPage = () => {
             page={page}
             setPage={setPage}
             carrierData={carrierData}
+            isLoading={isLoading}
             setIsLoading={setIsLoading}
             setShowError={setShowError}
             setApiError={setApiError}
