@@ -106,7 +106,7 @@ const RegisterForm = ({
     <Form {...registrationForm}>
       <form
         onSubmit={registrationForm.handleSubmit(onSubmit)}
-        className={cn(page === 0 || page === 1 ? 'space-y-8' : 'space-y-4')}
+        className="space-y-8"
       >
         <FormField
           control={registrationForm.control}
@@ -160,24 +160,14 @@ const RegisterForm = ({
           )}
         />
 
-        <div className={cn(page === 0 ? 'text-center' : 'text-left')}>
-          {page >= 3 ? (
-            <Button
-              type="submit"
-              disabled={(isLoading = 'Loading...')}
-              className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
-            >
-              {isLoading === 'Loading...' ? 'Loading...' : 'Pay Now'}
-            </Button>
-          ) : (
-            <Button
-              disabled={isLoading === 'Loading...'}
-              type="submit"
-              className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {page === 0 ? `${isLoading}` : 'Continue'}
-            </Button>
-          )}
+        <div className={'text-center'}>
+          <Button
+            disabled={isLoading === 'Loading...'}
+            type="submit"
+            className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading === 'Loading...' ? `${isLoading}` : 'Register'}
+          </Button>
           {showError && apiError && (
             <div className="fixed inset-0 z-10 flex items-center justify-center">
               <div

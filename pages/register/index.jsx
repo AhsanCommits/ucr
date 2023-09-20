@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const RegisterPage = () => {
   const [page, setPage] = useState(0);
-  const [isLoading, setIsLoading] = useState('Register');
+  const [isLoading, setIsLoading] = useState('');
   const [apiError, setApiError] = useState(null);
   const [showError, setShowError] = useState(false);
   const [apiCalled, setApiCalled] = useState(false); // Track whether the API has been called

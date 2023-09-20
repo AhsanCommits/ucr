@@ -98,7 +98,7 @@ const FurtherClassification = ({
 
     if (page === 3) {
       console.log('Form Data:', formData);
-      console.log('carrierData:', carrierData);
+      console.log('Carrier Data:', carrierData);
 
       try {
         setIsLoading('Loading...');
@@ -268,7 +268,7 @@ const FurtherClassification = ({
               type="submit"
               className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {page === 3 ? `${isLoading}` : 'Continue'}
+              {isLoading === 'Loading...' ? `${isLoading}` : 'Continue'}
             </Button>
           </div>
         </div>
