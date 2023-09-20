@@ -3,7 +3,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <section className="section-style bg-[#004990]">
-      <div className="space-y-8 container-style md:px-12 md:py-20">
+      <div className="flex-col space-y-8 container-style md:px-12 md:py-20">
         <div>
           <ul className="flex flex-wrap items-baseline gap-5 space-y-6 text-white justify-evenly md:space-x-6">
             <li>
