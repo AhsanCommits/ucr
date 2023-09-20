@@ -78,7 +78,7 @@ export default function Form({ paymentIntent }) {
           id="payment-element"
         />
         <div className="text-center">
-          {stripeElementsLoaded && (
+          {stripeElementsLoaded ? (
             <button
               className=" w-full rounded-full text-white bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all my-4 px-8 py-4
             disabled:opacity-50 disabled:cursor-not-allowed
@@ -90,6 +90,10 @@ export default function Form({ paymentIntent }) {
                 {isLoading ? "Please Wait..." : "Pay Now"}
               </span>
             </button>
+          ) : (
+            <div className="flex items-center justify-center mt-5">
+              <div className="w-10 h-10 border-4 border-gray-400 rounded-full border-t-blue-500 animate-spin"></div>
+            </div>
           )}
         </div>
         {/* Show any error or success messages */}
