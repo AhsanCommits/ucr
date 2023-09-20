@@ -1,11 +1,11 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 const Footer = () => {
   return (
     <section className="section-style bg-[#004990]">
-      <div className="container-style md:px-12 md:py-20 space-y-8">
+      <div className="space-y-8 container-style md:px-12 md:py-20">
         <div>
-          <ul className="flex justify-evenly items-baseline flex-wrap md:space-x-6 space-y-6 text-white">
+          <ul className="flex flex-wrap items-baseline gap-5 space-y-6 text-white justify-evenly md:space-x-6">
             <li>
               <Link href="/">Home</Link>
             </li>
@@ -23,7 +23,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="text-slate-400 text-sm space-y-4 p-2 text-center">
+        <div className="p-2 space-y-4 text-sm text-center text-slate-400">
           <p>
             Information and images contained here are the property of Cohort,
             Inc. and, they may not be reproduced, reused, or appropriated in any
