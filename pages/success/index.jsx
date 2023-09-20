@@ -25,27 +25,27 @@ const PaymentSuccess = () => {
 
         const paymentIntent = await resp.json();
 
-        switch (paymentIntent.status) {
-          case "succeeded":
-            setMessage("Success! Payment received.");
-            break;
+        setMessage(paymentIntent.status);
+        // switch (paymentIntent.status) {
+        //   case "succeeded":
+        //     break;
 
-          case "processing":
-            setMessage(
-              "Payment processing. We'll update you when payment is received."
-            );
-            break;
+        //   case "processing":
+        //     setMessage(
+        //       "Payment processing. We'll update you when payment is received."
+        //     );
+        //     break;
 
-          case "requires_payment_method":
-            setMessage("Payment failed. Please try another payment method.");
-            // Redirect your user back to your payment page to attempt collecting
-            // payment again
-            break;
+        //   case "requires_payment_method":
+        //     setMessage("Payment failed. Please try another payment method.");
+        //     // Redirect your user back to your payment page to attempt collecting
+        //     // payment again
+        //     break;
 
-          default:
-            setMessage("Something went wrong.");
-            break;
-        }
+        //   default:
+        //     setMessage("Something went wrong.");
+        //     break;
+        // }
       } catch (error) {
       } finally {
         localStorage.removeItem("paymentIntent");
@@ -55,21 +55,47 @@ const PaymentSuccess = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="flex flex-col items-center gap-5 p-8 text-center bg-white rounded-lg shadow-md">
-        <h1 className="text-3xl font-semibold text-gray-600">
-          {message ? message : "Processing payment..."}
-        </h1>
-        <p className="text-lg text-gray-700">
-          {/* Thank you for your payment. Your order has been successfully
-          processed. */}
-        </p>
-        <Link
-          href="/"
-          className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] text-white py-3 px-4 hover:scale-110 transition-all"
-        >
-          Back to Home
-        </Link>
+    <div className="flex items-center justify-center w-full p-5 my-40">
+      <div>
+        {message ? (
+          <div className="flex flex-col items-center w-full gap-5 p-8 text-center rounded-lg">
+            <div className="text-gray-600">
+              {message === "succeeded" ? (
+                <div className="flex flex-col gap-5">
+                  <h1 className="text-3xl font-semibold text-gray-600">
+                    Thank you.
+                  </h1>
+                  <p className="text-gray-500">
+                    We will email you a confirmation when the registration is
+                    complete.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-5">
+                  <h1 className="text-3xl font-semibold text-gray-600">
+                    Something went wrong.
+                  </h1>
+                  <p className="text-gray-500">
+                    {message === "processing"
+                      ? "Payment processing. We'll update you when payment is received."
+                      : "Payment failed. Please try another payment method."}
+                  </p>
+                </div>
+              )}
+            </div>
+            <Link
+              href="/"
+              className="md:w-1/2 w-full rounded-full bg-[#004990] hover:bg-[#003972] text-white py-3 px-4 hover:scale-110 transition-all"
+            >
+              Back to Home
+            </Link>
+          </div>
+        ) : (
+          // spinner without svg
+          <div className="flex items-center justify-center">
+            <div className="w-16 h-16 border-4 border-gray-400 rounded-full border-t-blue-500 animate-spin"></div>
+          </div>
+        )}
       </div>
     </div>
   );
