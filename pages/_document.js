@@ -9,6 +9,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <title>UCR.gg</title>
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <body>
         <Navbar />
