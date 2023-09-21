@@ -1,7 +1,7 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 import {
   Form,
@@ -9,17 +9,18 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
-import { useForm } from 'react-hook-form';
+import { useForm } from "react-hook-form";
+import React from "react";
 
 const formSchema = z.object({
   fullName: z
     .string()
     .min(2, {
-      message: 'Name must be at least 2 characters.',
+      message: "Name must be at least 2 characters.",
     })
     .max(50),
   email: z.string().email(),
@@ -31,25 +32,48 @@ const ContactPage = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
-      usDotNumber: '',
-      message: '',
+      fullName: "",
+      email: "",
+      usDotNumber: "",
+      message: "",
     },
   });
 
+  const [submitting, setSubmitting] = React.useState(false);
+
   // submit handler.
-  function onSubmit(values) {
+  async function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    try {
+      setSubmitting(true);
+      // send to api
+      const resp = await fetch("/api/contact-us", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (resp.status === 200) {
+        alert("Your message has been sent. We will get back to you shortly.");
+        form.reset();
+      } else {
+        alert("There was an error sending your message. Please try again.");
+      }
+    } catch (error) {
+    } finally {
+      setSubmitting(false);
+    }
 
     console.log(values);
   }
 
   return (
     <section className="section-style">
-      <div className="container-style flex-col lg:px-12 md:py-20 space-y-8">
-        <h1 className="text-4xl font-bold text-gray-700 p-2 text-center">
+      <div className="flex-col space-y-8 container-style lg:px-12 md:py-20">
+        <h1 className="p-2 text-4xl font-bold text-center text-gray-700">
           Contact Us
         </h1>
 
@@ -124,9 +148,10 @@ const ContactPage = () => {
               <div className="text-center">
                 <Button
                   type="submit"
-                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7"
+                  disabled={submitting}
+                  className="md:w-1/3 w-full rounded-full bg-[#004990] hover:bg-[#003972] hover:scale-110 transition-all px-8 py-7 disabled:opacity-70"
                 >
-                  Submit
+                  {submitting ? "Submitting..." : "Submit"}
                 </Button>
               </div>
             </form>

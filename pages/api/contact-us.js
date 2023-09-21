@@ -1,18 +1,41 @@
-import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2020-08-27",
-});
-
-const getPaymentIntent = async (paymentIntentId) => {
-  return await stripe.paymentIntents.retrieve(paymentIntentId);
-};
-
 const handler = async (req, res) => {
-  const { paymentIntentId } = req.body;
   try {
-    const payment_intent = await getPaymentIntent(paymentIntentId);
-    //Return the payment_intent object
-    res.status(200).json(payment_intent);
+    // save contact us form data to airtable
+    const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/tblwhV9J90KZPL2Lt`;
+
+    const payload = {
+      records: [
+        {
+          fields: {
+            Name: req.body.fullName,
+            Email: req.body.email,
+            "DOT Number": Number(req.body.usDotNumber),
+            Message: req.body.message,
+          },
+        },
+      ],
+    };
+
+    console.log("payload", payload.records[0].fields);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    console.log("airtable response", data);
+
+    if (!data.records[0].id) {
+      throw new Error("Could not save to Airtable");
+    }
+
+    res.status(200).json({ message: "message received." });
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : "Internal server error";
