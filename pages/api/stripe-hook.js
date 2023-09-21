@@ -10,6 +10,10 @@ export const config = {
 };
 
 const updateAirtable = async (paymentIntent) => {
+  if (!paymentIntent.metadata?.airtableId) {
+    return;
+  }
+
   const url = `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/${process.env.AIRTABLE_TABLE_NAME}/${paymentIntent.metadata.airtableId}`;
   const response = await fetch(url, {
     method: "PATCH",
