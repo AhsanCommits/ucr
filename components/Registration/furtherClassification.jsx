@@ -36,6 +36,10 @@ const createIntent = async (formData, carrierData) => {
     }),
   });
 
+  if (intent.status !== 200) {
+    return false;
+  }
+
   const intentData = await intent.json();
   localStorage.setItem("paymentIntent", JSON.stringify(intentData));
   return intentData;
@@ -104,6 +108,13 @@ const FurtherClassification = ({
       try {
         setIsLoading("Loading...");
         const intentData = await createIntent(newFormData, carrierData);
+        if (!intentData) {
+          console.error("Error creating payment intent", intentData);
+          setIsLoading("Continue");
+          setApiError("Failed to create payment intent");
+          setShowError(true);
+          return;
+        }
         // Redirect to the payment page
         router.push("/payment");
         setIsLoading("Continue");
