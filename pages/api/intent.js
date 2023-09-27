@@ -35,7 +35,7 @@ const saveToAirtable = async (formData, carrierData) => {
     Classification: getClassification(formData),
     "Number of Units": `${carrierData.totalPowerUnits}`,
     Street: carrierData.phyStreet,
-    "Processing Time": formData.processingTime,
+    // "Processing Time": formData.processingTime,
     "DOT Number": carrierData.dotNumber,
     "Customer Certified": true,
     "Who is creating the registration?": formData.fullName,

@@ -48,7 +48,7 @@ const createIntent = async (formData, carrierData) => {
 const formSchemaForFutherClassification = z.object({
   registrationYear: z.enum(["2023", "2024"]),
   certificationNeeded: z.enum(["Yes", "No"]),
-  processingTime: z.enum(["Same day Express", "Regular"]),
+  // processingTime: z.enum(["Same day Express", "Regular"]),
   fullName: z
     .string()
     .min(1, {
@@ -81,7 +81,7 @@ const FurtherClassification = ({
     resolver: zodResolver(formSchemaForFutherClassification),
     defaultValues: {
       certificationNeeded: "",
-      processingTime: "",
+      // processingTime: "",
       registrationYear: "",
       fullName: "",
       signature: "",
@@ -189,7 +189,7 @@ const FurtherClassification = ({
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={futherClassificationForm.control}
             name="processingTime"
             render={({ field }) => (
@@ -218,7 +218,7 @@ const FurtherClassification = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={futherClassificationForm.control}
